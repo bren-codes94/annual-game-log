@@ -33,14 +33,14 @@ async function seedSampleGames() {
   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
   await client.sql`
-    CREATE TABLE IF NOT EXISTS invoices (
+    CREATE TABLE IF NOT EXISTS sampleGames (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       title VARCHAR(255) NOT NULL,
       genre VARCHAR(255) NOT NULL
     );
   `;
 
-  const insertedInvoices = await Promise.all(
+  const insertedSampleGames = await Promise.all(
     sampleGames.map(
       (sampleGames) => client.sql`
         INSERT INTO sampleGames (game_id, title, genre)
@@ -50,7 +50,7 @@ async function seedSampleGames() {
     ),
   );
 
-  return insertedInvoices;
+  return insertedSampleGames;
 }
 
 async function seedGameLogs() {
@@ -69,17 +69,17 @@ async function seedGameLogs() {
     );
   `;
 
-  const insertedCustomers = await Promise.all(
+  const insertedGameLogs = await Promise.all(
     gameLogs.map(
       (game_logs) => client.sql`
-        INSERT INTO game_logs (id, name, email, image_url)
+        INSERT INTO game_logs (id, user_id, games, year, status, games_completed, games_dropped, log_started)
         VALUES (${game_logs.id}, ${game_logs.user_id}, ${game_logs.games}, ${game_logs.year}, ${game_logs.status}, ${game_logs.games_completed}, ${game_logs.games_dropped}, ${game_logs.log_started})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
   );
 
-  return insertedCustomers;
+  return insertedGameLogs;
 }
 
 export async function GET() {
