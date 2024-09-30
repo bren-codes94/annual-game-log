@@ -1,5 +1,7 @@
 import Search from "@/app/components/search";
 
+// TODO: when a new value is emitted from Search component, query IGDB API for list of games
+
 export default function NewGameLog() {
   return (
     <div className="h-full">

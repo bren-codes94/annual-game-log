@@ -1,6 +1,8 @@
 import { Description, Field, Input, Label } from '@headlessui/react'
 import clsx from 'clsx'
 
+// TODO: when user types, expose result to parent component (debounced)
+
 export default function Search() {
   return (
     <div className="w-full max-w-md">
