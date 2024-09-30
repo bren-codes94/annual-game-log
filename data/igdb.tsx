@@ -24,7 +24,7 @@ export async function searchGames(keyword: string) {
         'Client-ID': `${process.env.IGDB_CLIENT_ID}`,
         'Authorization': `Bearer ${process.env.IGDB_ACCESS_TOKEN}`,
       },
-      body: `fields name,genre;where name = ${keyword}`
+      body: `fields name,genre.name;search ${keyword};limit 15;`
     }
   )
 
