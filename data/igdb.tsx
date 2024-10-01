@@ -25,8 +25,7 @@ export async function searchGames(keyword: string) {
         'Client-ID': `${process.env.IGDB_CLIENT_ID}`,
         'Authorization': `Bearer ${process.env.IGDB_ACCESS_TOKEN}`,
       },
-      body: `fields name,genres.name;search "${keyword}";limit 15;`,
-      cache: 'no-cache'
+      body: `fields name,genres.name;search "${keyword}";limit 15;`
     }
   )
 
@@ -43,8 +42,7 @@ export async function searchGames(keyword: string) {
           'Client-ID': `${process.env.IGDB_CLIENT_ID}`,
           'Authorization': `Bearer ${process.env.IGDB_ACCESS_TOKEN}`,
         },
-        body: `fields name,genres.name;search "${keyword}";limit 15;`,
-        cache: 'no-cache'
+        body: `fields name,genres.name;search "${keyword}";limit 15;`
       }
     )
   }
