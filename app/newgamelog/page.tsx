@@ -16,7 +16,7 @@ export default async function NewGameLog() {
         <div className="p-20 flex justify-center">
           Halo Games:
           <ul>
-            {games.map((game: any) => {
+            {games?.map((game: any) => {
               return(
                 <li key={game.id}>
                   {game.name}
