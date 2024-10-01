@@ -8,16 +8,16 @@ async function retrieveAccessToken() {
     }
   )
 
-  const data = response.json()
+  const data = await response.json()
 
   process.env.IGDB_ACCESS_TOKEN = data.access_token;
 }
 
+// TODO: create typescript interface for API responses
 export async function searchGames(keyword: string) {
-  // query the games endpoint using the keyword param
   if (!process.env.IGDB_ACCESS_TOKEN) await retrieveAccessToken();
 
-  return await fetch(`https://api.igdb.com/v4/games`,
+  let response = await fetch(`https://api.igdb.com/v4/games`,
     {
       method: 'POST',
       headers: {
@@ -29,4 +29,24 @@ export async function searchGames(keyword: string) {
       cache: 'no-cache'
     }
   )
+
+  // TODO: refactor this code block for maintainability
+  if (response.status == 401) {
+    // request new access_token and call search again
+    console.log('requesting new access token')
+    await retrieveAccessToken();
+    return await fetch(`https://api.igdb.com/v4/games`,
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Client-ID': `${process.env.IGDB_CLIENT_ID}`,
+          'Authorization': `Bearer ${process.env.IGDB_ACCESS_TOKEN}`,
+        },
+        body: `fields name,genres.name;search "${keyword}";limit 15;`,
+        cache: 'no-cache'
+      }
+    )
+  }
+  return response;
 }

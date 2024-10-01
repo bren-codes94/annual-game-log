@@ -2,10 +2,15 @@ import Search from "@/app/components/search";
 import { searchGames } from "@/data/igdb";
 
 // TODO: when a new value is emitted from Search component, query IGDB API for list of games
+interface IGDBGames {
+  id: number;
+  name: string;
+  genres: any;
+}
 
 export default async function NewGameLog() {
   let data = await searchGames('halo');
-  let games = await data.json() || [];
+  let games: IGDBGames[] = await data.json();
   return (
     <div className="h-full">
       <section className="selectedgames m-8">
@@ -16,7 +21,7 @@ export default async function NewGameLog() {
         <div className="p-20 flex justify-center">
           Halo Games:
           <ul>
-            {games?.map((game: any) => {
+            {games.map((game) => {
               return(
                 <li key={game.id}>
                   {game.name}
