@@ -8,15 +8,16 @@ async function retrieveAccessToken() {
     }
   )
 
-  console.log(response)
-  process.env.IGDB_ACCESS_TOKEN = response.access_token;
+  const data = response.json()
+
+  process.env.IGDB_ACCESS_TOKEN = data.access_token;
 }
 
 export async function searchGames(keyword: string) {
   // query the games endpoint using the keyword param
   if (!process.env.IGDB_ACCESS_TOKEN) await retrieveAccessToken();
 
-  const response: any = await fetch(`https://api.igdb.com/v4/games`,
+  return await fetch(`https://api.igdb.com/v4/games`,
     {
       method: 'POST',
       headers: {
@@ -24,9 +25,8 @@ export async function searchGames(keyword: string) {
         'Client-ID': `${process.env.IGDB_CLIENT_ID}`,
         'Authorization': `Bearer ${process.env.IGDB_ACCESS_TOKEN}`,
       },
-      body: `fields name,genre.name;search ${keyword};limit 15;`
+      body: `fields name,genres.name;search "${keyword}";limit 15;`,
+      cache: 'no-cache'
     }
   )
-
-  return response;
 }
