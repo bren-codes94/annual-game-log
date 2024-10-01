@@ -5,7 +5,7 @@ import { searchGames } from "@/data/igdb";
 
 export default async function NewGameLog() {
   let data = await searchGames('halo');
-  let games = await data.json();
+  let games: any = await data.json();
   return (
     <div className="h-full">
       <section className="selectedgames m-8">
