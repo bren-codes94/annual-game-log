@@ -8,7 +8,7 @@ export default function Search({onChange}: any) {
     e.stopPropagation();
     clearTimeout(onChangeTimeout);
     onChangeTimeout = setTimeout(
-      () => onChange(e)
+      () => onChange(e.target.value)
       , 750
     )
   }

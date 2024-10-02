@@ -4,22 +4,21 @@ import Search from "@/app/components/search";
 import { searchGames } from "@/data/igdb";
 import { useState } from "react";
 
-// TODO: when a new value is emitted from Search component, query IGDB API for list of games
-interface IGDBGames {
+interface IGDBGame {
   id: number;
   name: string;
   genres: any;
 }
 
 export default function NewGameLog() {
-  // let data = await searchGames('halo');
-  // let games: IGDBGames[] = await data.json();
 
-  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
-  function handleChange(e: any) {
-    setSearchText(e.target.value);
+  async function handleChange(searchValue: string) {
+    let games = await searchGames(searchValue);
+    setSearchResults(games)
   }
+
   return (
     <div className="h-full">
       <section className="selectedgames m-8">
@@ -27,10 +26,20 @@ export default function NewGameLog() {
       </section>
       <section className="searchgames m-8 h-full">
         <Search onChange={handleChange} />
-        {searchText}
-        <div className="p-20 flex justify-center">
-          Use the search box to find and add games to your log.
-        </div>
+        <ul>
+          {searchResults.map((game: IGDBGame) => {
+            return (
+              <li key={game.id}>{game.name}</li>
+            )
+          })}
+        </ul>
+        { searchResults.length === 0 &&
+          (
+            <div className="p-20 flex justify-center">
+              Use the search box to find and add games to your log.
+            </div>
+          )
+        }
       </section>
     </div>
   )

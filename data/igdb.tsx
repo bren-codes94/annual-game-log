@@ -48,5 +48,6 @@ export async function searchGames(keyword: string) {
       }
     )
   }
-  return response;
+  let data = await response.json();
+  return data;
 }
