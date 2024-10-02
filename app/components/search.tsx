@@ -3,8 +3,9 @@ import clsx from 'clsx'
 
 export default function Search({onChange}: any) {
   // debounce event listener funciton call
-  let onChangeTimeout: any; 
-  function handleChange(e: any) {
+  let onChangeTimeout: NodeJS.Timeout; 
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    e.stopPropagation();
     clearTimeout(onChangeTimeout);
     onChangeTimeout = setTimeout(
       () => onChange(e)
